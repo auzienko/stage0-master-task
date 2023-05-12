@@ -11,19 +11,25 @@ public class ArrayTasks {
      * Return a String[] array that will list all the seasons of the year, starting with winter.
      */
     public String[] seasonsArray() {
-        return null;
+        return new String[]{"winter", "spring", "summer", "autumn"};
     }
 
     /**
-     * Generate an int[] array of consecutive positive integers starting at 1 of the given length (length parameter >
-     * 0).
+     * Generate an int[] array of consecutive positive integers
+     * starting at 1 of the given length (length parameter > 0).
      * <p>
      * Example:
      * <p>
-     * length = 1  -> [1] length = 3  -> [1, 2, 3] length = 5  -> [1, 2, 3, 4, 5]
+     * length = 1  -> [1]
+     * length = 3  -> [1, 2, 3]
+     * length = 5  -> [1, 2, 3, 4, 5]
      */
     public int[] generateNumbers(int length) {
-        return null;
+        int[] array = new int[length];
+        for (int i = 0; i < length; i++) {
+            array[i] = i + 1;
+        }
+        return array;
     }
 
     /**
@@ -31,59 +37,124 @@ public class ArrayTasks {
      * <p>
      * Example:
      * <p>
-     * arr = [1, 3, 5]   -> sum = 9 arr = [5, -3, -4] -> sum = -2
+     * arr = [1, 3, 5]   -> sum = 9
+     * arr = [5, -3, -4] -> sum = -2
      */
     public int totalSum(int[] arr) {
-        return 0;
+        int sum = 0;
+        for (int j : arr) {
+            sum += j;
+        }
+        return sum;
     }
 
     /**
-     * Return the index of the first occurrence of number in the arr array. If there is no such element in the array,
-     * return -1.
+     * Return the index of the first occurrence of number in the arr array.
+     * If there is no such element in the array, return -1.
      * <p>
      * Example:
      * <p>
-     * arr = [99, -7, 102], number = -7    ->   2 arr = [5, -3, -4],   number = 10    ->  -1
+     * arr = [99, -7, 102], number = -7    ->   2
+     * arr = [5, -3, -4],   number = 10    ->  -1
      */
     public int findIndexOfNumber(int[] arr, int number) {
-        return 0;
+        int notFound = -1;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == number) {
+                return i;
+            }
+        }
+        return notFound;
     }
 
     /**
-     * Return the new String[] array obtained from the arr array by reversing the order of the elements.
+     * Return the new String[] array obtained from the arr array
+     * by reversing the order of the elements.
      * <p>
      * Example:
      * <p>
-     * arr = ["Bob", "Nick"]               -> ["Nick", "Bob"] arr = ["pineapple", "apple", "pen"] -> ["pen", "apple",
-     * "pineapple"]
+     * arr = ["Bob", "Nick"]               -> ["Nick", "Bob"]
+     * arr = ["pineapple", "apple", "pen"] -> ["pen", "apple", "pineapple"]
      */
     public String[] reverseArray(String[] arr) {
-        return null;
+        String[] reverse = new String[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            reverse[arr.length - i - 1] = arr[i];
+        }
+        return reverse;
     }
 
     /**
-     * Return new int[] array obtained from arr int[] array by choosing positive numbers only. P.S. 0 is not a positive
-     * number =)
+     * Return new int[] array obtained from arr int[] array
+     * by choosing positive numbers only.
+     * P.S. 0 is not a positive number =)
      * <p>
      * Example:
      * <p>
-     * arr = [1,-2, 3]      -> [1, 3] arr = [-1, -2, -3]   -> [] arr = [1, 2]         -> [1, 2]
+     * arr = [1,-2, 3]      -> [1, 3]
+     * arr = [-1, -2, -3]   -> []
+     * arr = [1, 2]         -> [1, 2]
      */
     public int[] getOnlyPositiveNumbers(int[] arr) {
-        return null;
+        int positiveCount = 0;
+        for (int i : arr) {
+            if (i > 0) {
+                positiveCount++;
+            }
+        }
+        int[] positiveNumbers = new int[positiveCount];
+        int j = 0;
+        for (int i : arr) {
+            if (i > 0) {
+                positiveNumbers[j++] = i;
+            }
+        }
+        return positiveNumbers;
     }
 
     /**
-     * Return a sorted, ragged, two-dimensional int[][] array following these rules: Incoming one-dimensional arrays
-     * must be arranged in ascending order of their length; numbers in all one-dimensional arrays must be in ascending
-     * order.
+     * Return a sorted, ragged, two-dimensional int[][] array following these rules:
+     * Incoming one-dimensional arrays must be arranged in ascending order of their length;
+     * numbers in all one-dimensional arrays must be in ascending order.
      * <p>
      * Example:
      * <p>
-     * arr = [[3, 1, 2,], [3,2]] -> [[2, 3], [1, 2, 3]] arr = [[5, 4], [7]]       -> [[7], [4, 5]]
+     * arr = [[3, 1, 2,], [3,2]] -> [[2, 3], [1, 2, 3]]
+     * arr = [[5, 4], [7]]       -> [[7], [4, 5]]
      */
     public int[][] sortRaggedArray(int[][] arr) {
-        return null;
+        int offset = 1000000;
+        int[] allLength = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            allLength[i] = arr[i].length * offset + i;
+        }
+        sort(allLength);
+        int[][] sortedArray = new int[arr.length][];
+        for (int i = 0; i < allLength.length; i++) {
+            sortedArray[i] = arr[allLength[i] % 1000];
+            sort(sortedArray[i]);
+        }
+
+        return sortedArray;
     }
 
+    private void sort(int[] arr) {
+        int i = 0, n = arr.length;
+        boolean swapNeeded = true;
+        while (i < n - 1 && swapNeeded) {
+            swapNeeded = false;
+            for (int j = 1; j < n - i; j++) {
+                if (arr[j - 1] > arr[j]) {
+                    int temp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = temp;
+                    swapNeeded = true;
+                }
+            }
+            if (!swapNeeded) {
+                break;
+            }
+            i++;
+        }
+    }
 }
